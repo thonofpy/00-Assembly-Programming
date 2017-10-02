@@ -1,6 +1,6 @@
 # CA296 Assembly Programming
 
-# Helpful Links:
+# Links:
 [http://www.masm32.com/ MASM]
 [http://masm32.com/board/index.php Official MASM Forum]
 [http://www.webalice.it/jj2006/Masm32_Tips_Tricks_and_Traps.htm Basic Intro]
