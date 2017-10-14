@@ -51,8 +51,7 @@ caption		BYTE	'Welcome to CA296',0
 		mov ecx,eax					; input new value into ecx so loop works
 		jmp compare					; compare new value with 0
 
-		finish:
-			invoke MessageBox,0,ADDR message,ADDR caption,MB_OK
-			invoke ExitProcess,0
+		invoke MessageBox,0,ADDR message,ADDR caption,MB_OK
+		invoke ExitProcess,0
 
 	end main
