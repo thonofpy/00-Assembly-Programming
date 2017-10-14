@@ -1,0 +1,57 @@
+.586
+.model flat,stdcall
+.stack 4096
+option casemap:none
+
+include     p:\masm32\include\windows.inc
+include     p:\masm32\include\kernel32.inc
+include		p:\masm32\include\user32.inc
+include		p:\masm32\include\msvcrt.inc
+include		p:\masm32\include\ca296.inc
+
+includelib p:\masm32\lib\ca296.lib
+includelib kernel32.lib
+includelib user32.lib
+includelib msvcrt.lib
+
+.data
+x			DWORD	0
+message     BYTE	'Press OK to fuck',0
+caption     BYTE	'Welcome to CA296',0
+
+.code
+	main:nop
+
+		invoke version
+		invoke readInteger
+		mov ecx,eax					; needed for loop
+
+		compare:					; compare input value with 0
+			cmp eax,0
+			je zero
+			jg next
+			jl finish				; if value negative jump to finish
+
+		zero:
+			invoke writeInteger,0
+			jmp read				; output 0 and read new integer
+
+		next:						; loop
+			push ecx
+			invoke writeInteger,x
+			inc x					; increment x
+			pop ecx
+			dec ecx
+			jnz next
+
+		mov x,0						; clears x since it was increased in the loop
+		read:
+			invoke readInteger
+		mov ecx,eax					; input new value into ecx so loop works
+		jmp compare					; compare new value with 0
+
+		finish:
+			invoke MessageBox,0,ADDR message,ADDR caption,MB_OK
+			invoke ExitProcess,0
+
+	end main
