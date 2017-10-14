@@ -26,17 +26,33 @@ caption		BYTE	'Welcome to CA296',0
 
 		invoke version
 		invoke readInteger
-		
-		mov ecx,eax
-		next:
+		mov ecx,eax					; needed for loop
+
+		compare:					; compare input value with 0
+			cmp eax,0
+			je zero
+			jg next
+
+		zero:
+			invoke writeInteger,0
+			jmp read				; output 0 and read new integer
+
+		next:						; loop
 			push ecx
-			invoke writeInteger, x
-			inc x
+			invoke writeInteger,x
+			inc x					; increment x
 			pop ecx
 			dec ecx
 			jnz next
 
-		invoke MessageBox,0,ADDR message,ADDR caption,MB_OK
-		invoke ExitProcess,0
+		mov x,0						; clears x since it was increased in the loop
+		read:
+			invoke readInteger
+		mov ecx,eax					; input new value into ecx so loop works
+		jmp compare					; compare new value with 0
+
+		finish:
+			invoke MessageBox,0,ADDR message,ADDR caption,MB_OK
+			invoke ExitProcess,0
 
 	end main
